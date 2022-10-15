@@ -1,2 +1,2 @@
 # weather-app
-Simple CLI wetaher app written in Python
+Simple CLI weather app written in Python
