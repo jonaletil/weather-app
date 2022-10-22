@@ -31,6 +31,13 @@ The CLI App has the following functionalities:
 
  
 ## How to Run:
-1. Add AWS IAM credentials in *dl.cfg* file
-2. Specify output path in the *main* function of *etl.py* file 
-3. run *etl.py* file
+1. git clone https://github.com/jonaletil/weather-app.git
+2. cd weather-app
+3. docker build -t weather-app .
+4. docker run -d --name weather-app weather-app
+5. docker exec -it weather-app bash
+6. python app.py --latest --compare --average 12 2000
+or
+- docker pull jonaletil/weather-app:1.0
+
+

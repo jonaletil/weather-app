@@ -18,7 +18,7 @@ api_url = BASE_URL + api_key
 scheduler = BlockingScheduler()
 
 
-@scheduler.scheduled_job(IntervalTrigger(minutes=1))
+@scheduler.scheduled_job(IntervalTrigger(minutes=5))
 def get_weather_data():
     """Gets weather data from API.
 
