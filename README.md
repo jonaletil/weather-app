@@ -1,11 +1,11 @@
-# weather-app
-Simple CLI weather app written in Python
+# CLI Weather App
+Simple CLI weather App written in Python
 
 ## Project description
-Task of the project was to build a command-line app that presents the weather for the city of Tübingen.
+Task of the project was to build a command-line app that presents the weather for the Tübingen city.
 It is also possible to compare the current weather to historic data.
 
-The weather information are automatically queried regularly and a database is updated with it.
+The weather information are automatically queried regularly (every 5min) and a database is updated with it.
 To fetch the weather data, OpenWeather API has been used.
 
 The CLI App has the following functionalities:
@@ -22,6 +22,7 @@ The CLI App has the following functionalities:
   - helper.py: contains helper functions
 - historic_data:
   - tubingen-historic-data.csv: contains Tübingen weather information from 1979 in csv format
+- tests: contains unit test for API
 - api_keys.cfg: contains OpenWeather API key
 - app.py: contains function to handle user arguments and displaying weather information
 - Dockerfile: contains the commands to assemble an docker image

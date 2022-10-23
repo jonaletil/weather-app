@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Weather:
+class WeatherInfo:
     """Common base class for Weather"""
 
     def __init__(self, time, description, temp, feels_like, temp_min, temp_max, humidity, pressure, wind_speed):

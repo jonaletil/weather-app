@@ -12,7 +12,7 @@ api_key = config['OPENWEATHER']['API_KEY']
 
 # url data
 BASE_URL = 'https://api.openweathermap.org/data/2.5/weather?q=Tuebingen&&units=metric&appid='
-api_url = BASE_URL + api_key
+API = BASE_URL + api_key
 
 # api call scheduler
 scheduler = BlockingScheduler()
@@ -26,7 +26,7 @@ def get_weather_data():
     stores data as an JSON object and calls write_to_db func.
     """
 
-    result = requests.get(api_url)
+    result = requests.get(API)
     if result.status_code != 200:
         e = result.json()
         print('Error code: %s %s' % (e['cod'], e['message']))

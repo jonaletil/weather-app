@@ -5,29 +5,32 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from helpers import helper
-from Weather import Weather
+from Weather import WeatherInfo
 
 
 def read_user_cli_args():
-    """Handles user arguments.
+    """Reads user arguments.
 
     Returns:
-        Populated namespace object.
+        parser
     """
 
     parser = argparse.ArgumentParser(
         description='Gets latest weather information for Tübingen. '
                     'Compares the current weather with an average of the last week (last 7 days), month and year. '
-                    'Displays the average temperature for a certain month of a certain year. '
+                    'Displays the average temperature for a certain month of a certain year. Data is limited to years '
+                    'from 1979 until today '
     )
 
     parser.add_argument(
+        '-l',
         '--latest',
         action='store_true',
         help='Gets last weather information for Tübingen.',
     )
 
     parser.add_argument(
+        '-c',
         '--compare',
         action='store_true',
         help='Compares the current weather with an average of the last week (last 7 days), month and year.',
@@ -38,10 +41,29 @@ def read_user_cli_args():
         '--average',
         nargs=2,
         metavar=('1', '2021'),
-        help='Displays the average temperature for a certain month of a certain year.',
+        help='Displays the average temperature for a certain month of a certain year. Data is limited to years '
+             'from 1979 until today',
     )
 
-    return parser.parse_args()
+    return parser
+
+
+def handle_user_args():
+    """Handles user arguments."""
+
+    user_args = read_user_cli_args().parse_args()
+
+    if (not user_args.latest) & (not user_args.compare) & (not user_args.average):
+        read_user_cli_args().print_help()
+
+    if user_args.latest:
+        display_current_weather()
+
+    if user_args.compare:
+        compare_weather()
+
+    if user_args.average:
+        handle_averages(user_args)
 
 
 def query_last_data_point():
@@ -62,7 +84,7 @@ def get_current_weather():
 
     last_data_point = query_last_data_point()
 
-    current_weather = Weather(
+    current_weather = WeatherInfo(
         datetime.strptime(last_data_point['created'][0], '%Y-%m-%d %H:%M:%S').time(),
         last_data_point['description'][0],
         last_data_point['temperature'][0],
@@ -81,7 +103,7 @@ def display_current_weather():
     """Displays current weather information to the console."""
 
     print('=' * 20)
-    Weather.display_current(get_current_weather())
+    WeatherInfo.display_current(get_current_weather())
     print('=' * 20)
 
 
@@ -108,7 +130,7 @@ def compare_weather():
     last_year_df = df[df.year == last_year]
 
     # save averages to variables
-    current_data = Weather.get_current(get_current_weather())
+    current_data = WeatherInfo.get_current(get_current_weather())
     last_week_data = get_average(last_week_df)
     last_month_data = get_average(last_month_df)
     last_year_data = get_average(last_year_df)
@@ -118,6 +140,9 @@ def compare_weather():
                       index=table_rows, columns=table_columns)
 
     # print table to the console
+    print('-' * 85)
+    print('Comparison between current weather with an average of the last week, month and year.')
+    print('-' * 85)
     print(tabulate.tabulate(df, tablefmt='simple_grid', headers=table_columns))
 
 
@@ -138,6 +163,33 @@ def get_average(df):
     averages = [temp_avg, temp_feels_like, temp_min_avg, temp_max_avg, avg_humidity, avg_pressure]
 
     return averages
+
+
+def handle_averages(user_args):
+    """Handles average user arguments and input errors
+
+    This function calculates average temperature for a certain month
+     of a certain year and outputs it to console.
+
+    Args:
+        user_args (obj) : user arguments
+    """
+    month = int(user_args.average[0])
+    year = int(user_args.average[1])
+
+    if month not in range(1, 13):
+        helper.handle_input_errors('month_error')
+        return
+
+    if year not in range(1979, 2023):
+        helper.handle_input_errors('year_error')
+        return
+
+    if (year == 2022) and (month not in range(1, 11)):
+        helper.handle_input_errors('no_data')
+        return
+
+    display_avg_temp(month, year)
 
 
 def display_avg_temp(month, year):
@@ -167,15 +219,4 @@ def display_avg_temp(month, year):
 
 
 if __name__ == '__main__':
-    read_user_cli_args()
-
-    user_args = read_user_cli_args()
-
-    if user_args.latest:
-        display_current_weather()
-
-    if user_args.compare:
-        compare_weather()
-
-    if user_args.average:
-        display_avg_temp(int(user_args.average[0]), int(user_args.average[1]))
+    handle_user_args()
