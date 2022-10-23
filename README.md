@@ -40,9 +40,7 @@ There are 2 ways how to set up and run the app:
 4. docker run -d --name weather-app weather-app
 5. docker exec -it weather-app bash
 6. python app.py --latest --compare --average 12 2000
-<br />
 ##### or using DockerHub image:
-<br />
 1. docker pull jonaletil/weather-app:1.0
 2. docker run -d --name weather-app jonaletil/weather-app:1.0
 3. docker exec -it weather-app bash
