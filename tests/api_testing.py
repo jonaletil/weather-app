@@ -4,7 +4,7 @@ import requests
 
 # api key for weather api
 config = configparser.ConfigParser()
-config.read('../api_keys.cfg')
+config.read('api_keys.cfg')
 api_key = config['OPENWEATHER']['API_KEY']
 
 # url data
