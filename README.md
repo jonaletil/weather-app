@@ -33,7 +33,7 @@ The CLI App has the following functionalities:
  
 ## How to Run:
 There are 2 ways how to set up and run the app:
-- Using git clone:
+##### Using git clone:
 1. git clone https://github.com/jonaletil/weather-app.git
 2. cd weather-app
 3. docker build -t weather-app .
@@ -41,7 +41,7 @@ There are 2 ways how to set up and run the app:
 5. docker exec -it weather-app bash
 6. python app.py --latest --compare --average 12 2000
 <br />
-- or using DockerHub image:
+##### or using DockerHub image:
 <br />
 1. docker pull jonaletil/weather-app:1.0
 2. docker run -d --name weather-app jonaletil/weather-app:1.0
