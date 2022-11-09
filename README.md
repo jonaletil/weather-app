@@ -2,8 +2,8 @@
 Simple CLI weather App written in Python
 
 ## Project description
-Task of the project was to build a command-line app that presents the weather for the Tübingen city.
-It is also possible to compare the current weather to historic data.
+The task of the project was to build a command line app that displays the weather for the city of Tübingen.
+It is also possible to compare the current weather with historical data.
 
 The weather information are automatically queried regularly (every 5min) and a database is updated with it.
 To fetch the weather data, OpenWeather API has been used.
